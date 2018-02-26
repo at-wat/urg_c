@@ -580,6 +580,9 @@ static int receive_data(urg_t *urg, long data[], unsigned short intensity[],
     if (n <= 0) {
         return set_errno_and_return(urg, URG_NO_RESPONSE);
     }
+		if (system_time_stamp) {
+				urg_get_walltime(system_time_stamp);
+		}
     // エコーバックの解析
     type = parse_distance_echoback(urg, buffer);
 
@@ -644,9 +647,6 @@ static int receive_data(urg_t *urg, long data[], unsigned short intensity[],
     if (n > 0) {
         if (time_stamp) {
             *time_stamp = urg_scip_decode(buffer, 4);
-        }
-        if (system_time_stamp) {
-            urg_get_walltime(system_time_stamp);
         }
     }
 
